@@ -1,0 +1,89 @@
+<html>
+	<title>
+		Book update
+	</title>
+
+	
+	<script src="jquery-3.5.1.min.js"></script>
+	<script> 
+
+
+$('document').ready(()=>{
+	console.log("page loaded");
+	$(#bookid).blur(()=>{
+		console.log("blur occured");
+		let input = {bookid: $('#bookid'.val())}
+		let paramtothefunctions ={
+			data : input,
+			url: 'http://localhost:99/getid',
+			type: 'get',
+			datatype: 'json',
+			success: function(datafromserver){
+				console.log("Data fetched");
+				console.log(datafromserver);
+				if(datafromserver.status === true){
+					$('#bookid').val(datafromserver.detail.bookid);
+					$('msg').text("Book found");
+				}
+				else
+				$('#bookid').val('');
+				$('#msg').text('book not found');
+
+			},
+
+			error :function(errorfromserver){
+				console.log("some error found"+errorfromserver)
+			}
+
+		}
+		$.ajax(paramtothefunctions);
+
+
+	});
+	
+
+
+$('#update').click(()=>{
+	console.log("update clicked");
+	let input ={bookid: $('#bookid').val(),bookname: $('#bookname').val(),price: $('#price').val()}
+		let paramtothefunctions ={
+			data : input,
+			url: 'http://localhost:99/updateprice',
+			type: 'get',
+			datatype: 'json',
+			success: function(datafromserver){
+				console.log("Data fetched");
+				console.log(datafromserver);
+				if(datafromserver.status === true){
+					$('msg').text("Book found");
+				}
+				else
+				$('#price').val('');
+				$('#msg').text('Price not updated');
+
+			},
+
+			error :function(errorfromserver){
+				console.log("some error found"+errorfromserver)
+			}
+
+		}
+		$.ajax(paramtothefunctions);
+	});
+
+});
+	
+
+
+</script>
+
+<body>
+
+<input type="number" id="bookid" placeholder=" add bookid">
+<input type="text" id="bookname" placeholder="add bookname">
+<input type="number" id="price" placeholder="add price">
+<input type="button" name="update" id="update" value="update">
+
+</body>
+
+</html>
